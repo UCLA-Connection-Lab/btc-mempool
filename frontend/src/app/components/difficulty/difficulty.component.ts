@@ -51,7 +51,7 @@ export class DifficultyComponent implements OnInit {
   isLoadingWebSocket$: Observable<boolean>;
   difficultyEpoch$: Observable<EpochProgress>;
 
-  mode: 'difficulty' | 'halving' = 'difficulty';
+  mode: 'difficulty' | 'halving' = 'halving';
   userSelectedMode: boolean = false;
 
   now: number = Date.now();
