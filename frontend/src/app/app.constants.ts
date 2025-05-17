@@ -1,17 +1,8 @@
 export const defaultMempoolFeeColors = [
-  '557d00',
-  '5d7d01',
-  '637d02',
-  '6d7d04',
-  '757d05',
-  '7d7d06',
-  '867d08',
-  '8c7d09',
-  '957d0b',
-  '9b7d0c',
-  'a67d0e',
-  'aa7d0f',
-  'b27d10',
+  'ffb300',
+  'ffb300',
+  'ffb300',
+  'ffb300',
   'bb7d11',
   'bf7d12',
   'bf7815',
@@ -40,7 +31,7 @@ export const defaultMempoolFeeColors = [
 ];
 
 export const contrastMempoolFeeColors = [
-  '0082e6',
+  '2774ae',
   '0984df',
   '1285d9',
   '1a87d2',
