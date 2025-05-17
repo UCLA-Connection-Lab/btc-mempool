@@ -14,7 +14,7 @@ import { StorageService } from '@app/services/storage.service';
   styleUrls: ['./master-page.component.scss'],
 })
 export class MasterPageComponent implements OnInit, OnDestroy {
-  @Input() headerVisible = true;
+  @Input() headerVisible = false;
   @Input() footerVisibleOverride: boolean | null = null;
 
   env: Env;
