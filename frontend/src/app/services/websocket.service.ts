@@ -21,7 +21,7 @@ const initData = makeStateKey('/api/v1/init-data');
 })
 export class WebsocketService {
   private webSocketProtocol = (document.location.protocol === 'https:') ? 'wss:' : 'ws:';
-  private webSocketUrl = this.webSocketProtocol + '//' + document.location.hostname + ':' + document.location.port + '{network}/api/v1/ws';
+  private webSocketUrl: string;
 
   private websocketSubject: WebSocketSubject<WebsocketResponse>;
   private goneOffline = false;
@@ -52,6 +52,16 @@ export class WebsocketService {
     private transferState: TransferState,
     private cacheService: CacheService,
   ) {
+    // Check if we have a configured backend hostname (for production deployments)
+    if (this.stateService.env.NGINX_HOSTNAME && this.stateService.env.NGINX_HOSTNAME !== '127.0.0.1') {
+      const wsProtocol = this.stateService.env.NGINX_PROTOCOL === 'https' ? 'wss:' : 'ws:';
+      const wsPort = this.stateService.env.NGINX_PORT === '443' || this.stateService.env.NGINX_PORT === '80' ? '' : ':' + this.stateService.env.NGINX_PORT;
+      this.webSocketUrl = wsProtocol + '//' + this.stateService.env.NGINX_HOSTNAME + wsPort + '{network}/api/v1/ws';
+    } else {
+      // Use relative URL for local development
+      this.webSocketUrl = this.webSocketProtocol + '//' + document.location.hostname + ':' + document.location.port + '{network}/api/v1/ws';
+    }
+
     if (!this.stateService.isBrowser) {
       // @ts-ignore
       this.websocketSubject = { next: () => {}};
