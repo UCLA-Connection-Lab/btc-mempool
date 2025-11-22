@@ -5,6 +5,14 @@
   "framework": "angular",
   "routes": [
     {
+      "src": "/api/v1/ws",
+      "dest": "https://mempool.space/api/v1/ws"
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "https://mempool.space/api/$1"
+    },
+    {
       "src": "/assets/(.*)",
       "dest": "/assets/$1"
     },
