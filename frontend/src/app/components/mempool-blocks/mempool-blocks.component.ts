@@ -390,8 +390,8 @@ export class MempoolBlocksComponent implements OnInit, OnChanges, OnDestroy {
   getStyleForMempoolBlock(mempoolBlock: MempoolBlock, index: number) {
     const emptyBackgroundSpacePercentage = Math.max(100 - mempoolBlock.blockVSize / this.stateService.blockVSize * 100, 0);
     const usedBlockSpace = 100 - emptyBackgroundSpacePercentage;
-    // Use yellow (#ffb300) for background instead of brown - represents lower-priority transactions
-    const backgroundGradients = [`repeating-linear-gradient(to right,  #ffb300, #ffb300 ${emptyBackgroundSpacePercentage}%`];
+    // Use black for empty space (no transactions), yellow will appear in gradientColors for low-priority transactions
+    const backgroundGradients = [`repeating-linear-gradient(to right,  #000000, #000000 ${emptyBackgroundSpacePercentage}%`];
     const gradientColors = [];
 
     const trimmedFeeRange = index === 0 ? mempoolBlock.feeRange.slice(0, -1) : mempoolBlock.feeRange;
@@ -418,7 +418,7 @@ export class MempoolBlocksComponent implements OnInit, OnChanges, OnDestroy {
   getStyleForMempoolEmptyBlock(index: number) {
     return {
       'right': this.containerOffset + index * this.blockOffset + 'px',
-      'background': '#ffb300',
+      'background': '#000000',
     };
   }
 
