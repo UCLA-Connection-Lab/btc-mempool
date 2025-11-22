@@ -1,12 +1,8 @@
 export const defaultMempoolFeeColors = [
-  'ff9900',
-  'ff8800',
-  'ff7700',
-  'ff6600',
-  'ff9900',
-  'ff8800',
-  'ff7700',
-  'ff6600',
+  'ff5500',
+  'ff4400',
+  'ff3300',
+  'ff2200',
   'ff5500',
   'ff4400',
   'ff3300',
@@ -27,6 +23,10 @@ export const defaultMempoolFeeColors = [
   '330000',
   '220000',
   '110000',
+  '000000',
+  '000000',
+  '000000',
+  '000000',
   'ffb300',
 ];
 
