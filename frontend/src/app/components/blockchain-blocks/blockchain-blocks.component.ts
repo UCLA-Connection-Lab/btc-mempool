@@ -352,8 +352,8 @@ export class BlockchainBlocksComponent implements OnInit, OnChanges, OnDestroy {
       background: `repeating-linear-gradient(
         var(--secondary),
         var(--secondary) ${greenBackgroundHeight}%,
-        ${this.gradientColors[this.network][0]} ${Math.max(greenBackgroundHeight, 0)}%,
-        ${this.gradientColors[this.network][1]} 100%
+        #2774ae ${Math.max(greenBackgroundHeight, 0)}%,
+        #2774ae 100%
       )`,
       transition: animateEnterFrom ? 'background 2s, transform 1s' : null,
     };
