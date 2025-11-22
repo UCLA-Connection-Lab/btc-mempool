@@ -341,10 +341,9 @@ export class StateService {
 
     this.blocks$ = this.blocksSubject$.pipe(filter(blocks => blocks != null && blocks.length > 0));
 
-    const savedTimePreference = this.storageService.getValue('time-preference-ltr');
-    const rtlLanguage = (this.locale.startsWith('ar') || this.locale.startsWith('fa') || this.locale.startsWith('he'));
-    // default time direction is right-to-left, unless locale is a RTL language
-    this.timeLtr = new BehaviorSubject<boolean>(savedTimePreference === 'true' || (savedTimePreference == null && rtlLanguage));
+    // Clear old preference and set new default: left-to-right (mined blocks on left)
+    this.storageService.setValue('time-preference-ltr', 'true');
+    this.timeLtr = new BehaviorSubject<boolean>(true);
     this.timeLtr.subscribe((ltr) => {
       this.storageService.setValue('time-preference-ltr', ltr ? 'true' : 'false');
     });
