@@ -47,16 +47,16 @@ export class FeesBoxComponent implements OnInit, OnDestroy {
   }
 
   setFeeGradient() {
-    let feeLevelIndex = feeLevels.slice().reverse().findIndex((feeLvl) => this.fees.minimumFee >= feeLvl);
-    feeLevelIndex = feeLevelIndex >= 0 ? feeLevels.length - feeLevelIndex : feeLevelIndex;
-    const startColor = '#' + (this.themeService.mempoolFeeColors[feeLevelIndex - 1] || this.themeService.mempoolFeeColors[this.themeService.mempoolFeeColors.length - 1]);
+    // Start with yellow for low-priority transactions
+    const startColor = '#ffb300';
 
-    feeLevelIndex = feeLevels.slice().reverse().findIndex((feeLvl) => this.fees.fastestFee >= feeLvl);
+    // End with orange based on fastest fee (high priority)
+    let feeLevelIndex = feeLevels.slice().reverse().findIndex((feeLvl) => this.fees.fastestFee >= feeLvl);
     feeLevelIndex = feeLevelIndex >= 0 ? feeLevels.length - feeLevelIndex : feeLevelIndex;
     const endColor = '#' + (this.themeService.mempoolFeeColors[feeLevelIndex - 1] || this.themeService.mempoolFeeColors[this.themeService.mempoolFeeColors.length - 1]);
 
     this.gradient = `linear-gradient(to right, ${startColor}, ${endColor})`;
-    this.noPriority = startColor;
+    this.noPriority = '#ffb300'; // Yellow for low-priority transactions
 
     this.cd.markForCheck();
   }
