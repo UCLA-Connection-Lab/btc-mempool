@@ -1,17 +1,20 @@
-<div class="container-xl dashboard-container" *ngIf="(network$ | async) !== 'liquid'; else liquidDashboard">
+<div class="container-fluid dashboard-container" *ngIf="(network$ | async) !== 'liquid'; else liquidDashboard">
   <div *ngIf="{ value: (mempoolInfoData$ | async) } as mempoolInfoData">
-    <!-- Top row: Transaction Fees and Difficulty -->
+    <!-- Top row: Difficulty, Halving Countdown, and Transaction Fees -->
     <div class="row">
-      <div class="col-md-6 card-wrapper">
+      <div class="col-md-4">
+        <app-difficulty></app-difficulty>
+      </div>
+      <div class="col-md-4">
+        <app-halving-countdown></app-halving-countdown>
+      </div>
+      <div class="col-md-4 card-wrapper">
         <div class="main-title" i18n="fees-box.transaction-fees">Transaction Fees</div>
         <div class="card">
           <div class="card-body less-padding">
             <app-fees-box class="d-block"></app-fees-box>
           </div>
         </div>
-      </div>
-      <div class="col-md-6">
-        <app-difficulty></app-difficulty>
       </div>
     </div>
   </div>

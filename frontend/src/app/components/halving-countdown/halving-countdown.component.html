@@ -1,0 +1,69 @@
+<div *ngIf="showTitle" class="main-title" i18n="dashboard.halving-countdown">Halving Countdown</div>
+<div class="card-wrapper">
+  <div class="card">
+    <div class="card-body more-padding">
+      <div class="difficulty-adjustment-container halving" *ngIf="(isLoadingWebSocket$ | async) === false && (halvingProgress$ | async) as progress; else loadingHalving">
+        <div class="halving-progress">
+          <div class="background"></div>
+          <div class="remaining" [style]="{ left: progress.percentComplete.toFixed(2) + '%' }"></div>
+          <div class="label">
+            {{ progress.percentComplete.toFixed(2) }}%
+          </div>
+        </div>
+        <div class="difficulty-stats">
+          <div class="item">
+            <div class="card-text bigger">
+              <app-btc [satoshis]="progress.nextSubsidy"></app-btc>
+            </div>
+            <div class="symbol">
+              <span i18n="difficulty-box.new-subsidy">New subsidy</span>
+            </div>
+          </div>
+          <div class="item">
+            <div class="card-text">
+              {{ progress.blocksUntilHalving | number }}
+            </div>
+            <div class="symbol">
+              <span *ngIf="progress.blocksUntilHalving > 1" i18n="shared.blocks-remaining">Blocks remaining</span>
+              <span *ngIf="progress.blocksUntilHalving === 1" i18n="shared.block-remaining">Block remaining</span>
+            </div>
+          </div>
+          <div class="item">
+            <div class="card-text" i18n-ngbTooltip="mining.average-fee" placement="bottom">
+              <span>{{ progress.timeUntilHalving | date }}</span>
+            </div>
+            <div class="symbol">
+              <app-time kind="until" [time]="progress.timeUntilHalving" [fastRender]="false" [fixedRender]="true" [precision]="0" [numUnits]="2" [units]="['year', 'day', 'hour', 'minute']"></app-time>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #loadingHalving>
+  <div class="halving-progress">
+    <div class="skeleton-loader"></div>
+  </div>
+  <div class="difficulty-skeleton loading-container">
+    <div class="item">
+      <div class="card-text">
+        <div class="skeleton-loader"></div>
+        <div class="skeleton-loader"></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="card-text">
+        <div class="skeleton-loader"></div>
+        <div class="skeleton-loader"></div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="card-text">
+        <div class="skeleton-loader"></div>
+        <div class="skeleton-loader"></div>
+      </div>
+    </div>
+  </div>
+</ng-template>
