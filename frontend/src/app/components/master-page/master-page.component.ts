@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, Input, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Env, StateService } from '@app/services/state.service';
 import { Observable, merge, of, Subscription } from 'rxjs';
@@ -7,13 +7,14 @@ import { EnterpriseService } from '@app/services/enterprise.service';
 import { NavigationService } from '@app/services/navigation.service';
 import { MenuComponent } from '@components/menu/menu.component';
 import { StorageService } from '@app/services/storage.service';
+import lottie from 'lottie-web';
 
 @Component({
   selector: 'app-master-page',
   templateUrl: './master-page.component.html',
   styleUrls: ['./master-page.component.scss'],
 })
-export class MasterPageComponent implements OnInit, OnDestroy {
+export class MasterPageComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() headerVisible = false;
   @Input() footerVisibleOverride: boolean | null = null;
 
@@ -69,13 +70,27 @@ export class MasterPageComponent implements OnInit, OnDestroy {
     this.enterpriseInfo$ = this.enterpriseService.info$.subscribe(info => {
       this.enterpriseInfo = info;
     });
-    
+
     this.servicesEnabled = this.officialMempoolSpace && this.stateService.env.ACCELERATOR === true && this.stateService.network === '';
     this.refreshAuth();
 
     const isServicesPage = this.router.url.includes('/services/');
     this.menuOpen = isServicesPage && !this.isSmallScreen();
     this.setDropdownVisibility();
+  }
+
+  ngAfterViewInit(): void {
+    // Initialize Lottie animation for UCLA logo
+    const animationContainer = document.getElementById('ucla-logo-animation');
+    if (animationContainer) {
+      lottie.loadAnimation({
+        container: animationContainer,
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        path: '/resources/ucla-logo-ani.json'
+      });
+    }
   }
 
   setDropdownVisibility(): void {

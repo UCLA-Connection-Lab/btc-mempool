@@ -310,3 +310,45 @@ main {
   top: 65px;
   padding-bottom: 20px;
 }
+
+// UCLA Header styles
+.ucla-header {
+  #ucla-logo-animation {
+    flex-shrink: 0;
+  }
+
+  #cl-logo {
+    flex-shrink: 1;
+    min-width: 0;
+
+    .cl-wordmark {
+      fill: white;
+    }
+
+    @media (max-width: 767.98px) {
+      height: 40px !important;
+    }
+
+    @media (max-width: 479px) {
+      height: 30px !important;
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    padding: 15px 0 !important;
+
+    #ucla-logo-animation {
+      width: 60px !important;
+      height: 60px !important;
+    }
+  }
+
+  @media (max-width: 479px) {
+    padding: 10px 0 !important;
+
+    #ucla-logo-animation {
+      width: 50px !important;
+      height: 50px !important;
+    }
+  }
+}
