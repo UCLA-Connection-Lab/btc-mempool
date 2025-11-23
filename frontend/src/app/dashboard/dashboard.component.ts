@@ -66,7 +66,7 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
   mempoolInfoSubscription: Subscription;
   currencySubscription: Subscription;
   currency: string;
-  incomingGraphHeight: number = 300;
+  incomingGraphHeight: number = 225;
   lbtcPegGraphHeight: number = 360;
   webGlEnabled = true;
   private lastPegBlockUpdate: number = 0;
@@ -446,15 +446,15 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
   @HostListener('window:resize', ['$event'])
   onResize(): void {
     if (window.innerWidth >= 992) {
-      this.incomingGraphHeight = 300;
+      this.incomingGraphHeight = 225;
       this.goggleResolution = 82;
       this.lbtcPegGraphHeight = 360;
     } else if (window.innerWidth >= 768) {
-      this.incomingGraphHeight = 215;
+      this.incomingGraphHeight = 162;
       this.goggleResolution = 80;
       this.lbtcPegGraphHeight = 270;
     } else {
-      this.incomingGraphHeight = 180;
+      this.incomingGraphHeight = 135;
       this.goggleResolution = 86;
       this.lbtcPegGraphHeight = 270;
     }
