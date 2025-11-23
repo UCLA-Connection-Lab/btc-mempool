@@ -33,9 +33,13 @@ export class MasterPageComponent implements OnInit, AfterViewInit, OnDestroy {
   servicesEnabled = false;
   menuOpen = false;
   isDropdownVisible: boolean;
-  
+
   enterpriseInfo: any;
   enterpriseInfo$: Subscription;
+
+  // Auto-hide cursor
+  private cursorTimeout: any;
+  private readonly CURSOR_HIDE_DELAY = 3000; // 3 seconds
 
   @ViewChild(MenuComponent)
   public menuComponent!: MenuComponent;
@@ -77,6 +81,9 @@ export class MasterPageComponent implements OnInit, AfterViewInit, OnDestroy {
     const isServicesPage = this.router.url.includes('/services/');
     this.menuOpen = isServicesPage && !this.isSmallScreen();
     this.setDropdownVisibility();
+
+    // Setup auto-hide cursor
+    this.setupCursorAutoHide();
   }
 
   ngAfterViewInit(): void {
@@ -142,9 +149,35 @@ export class MasterPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.menuOpen = isOpen;
   }
 
+  setupCursorAutoHide(): void {
+    const showCursor = () => {
+      document.body.classList.remove('hide-cursor');
+      clearTimeout(this.cursorTimeout);
+      this.cursorTimeout = setTimeout(() => {
+        document.body.classList.add('hide-cursor');
+      }, this.CURSOR_HIDE_DELAY);
+    };
+
+    // Show cursor on mouse movement
+    document.addEventListener('mousemove', showCursor);
+
+    // Show cursor on any mouse activity
+    document.addEventListener('mousedown', showCursor);
+
+    // Initial hide after delay
+    this.cursorTimeout = setTimeout(() => {
+      document.body.classList.add('hide-cursor');
+    }, this.CURSOR_HIDE_DELAY);
+  }
+
   ngOnDestroy(): void {
     if (this.enterpriseInfo$) {
       this.enterpriseInfo$.unsubscribe();
+    }
+
+    // Clean up cursor timeout
+    if (this.cursorTimeout) {
+      clearTimeout(this.cursorTimeout);
     }
   }
 
