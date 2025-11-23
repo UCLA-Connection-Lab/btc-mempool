@@ -249,6 +249,13 @@ export class IncomingTransactionsGraphComponent implements OnInit, OnChanges, On
         }
       ],
       yAxis: {
+        name: this.template === 'widget' ? 'vB/s' : '',
+        nameLocation: 'middle',
+        nameGap: 40,
+        nameTextStyle: {
+          fontSize: 11,
+          color: 'var(--fg)',
+        },
         max: (value): number => {
           let cappedMax = value.max;
           if (this.outlierCappingEnabled && value.max >= (this.medianVbytesPerSecond * OUTLIERS_MEDIAN_MULTIPLIER)) {
