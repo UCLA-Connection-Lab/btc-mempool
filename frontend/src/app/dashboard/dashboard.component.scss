@@ -432,6 +432,22 @@
   margin-bottom: 6px;
 }
 
+.mempool-credit {
+  font-size: 10px;
+  color: var(--transparent-fg);
+  margin-top: 6px;
+  text-align: center;
+  opacity: 0.6;
+
+  .heart-icon {
+    height: 10px;
+    width: auto;
+    display: inline-block;
+    vertical-align: baseline;
+    margin: 0 2px;
+  }
+}
+
 .card-liquid {
   background-color: var(--bg);
   height: 418px;

@@ -38,7 +38,9 @@
       </main>
 
       <div class="flex-grow-1"></div>
-      <app-global-footer *ngIf="footerVisible" [user]="user"></app-global-footer>
+      <footer class="custom-footer">
+        Powered by Mempool Open Source Project | <a href="https://github.com/mempool/mempool" target="_blank" rel="noopener noreferrer">View Source</a> | License: AGPL v3
+      </footer>
     </div>
   </div>
 </ng-container>
