@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, HostListener, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
-import { combineLatest, EMPTY, fromEvent, interval, merge, Observable, of, Subject, Subscription, timer } from 'rxjs';
-import { catchError, delayWhen, distinctUntilChanged, filter, map, scan, share, shareReplay, startWith, switchMap, takeUntil, tap, throttleTime } from 'rxjs/operators';
+import { combineLatest, EMPTY, from, fromEvent, interval, merge, Observable, of, Subject, Subscription, timer } from 'rxjs';
+import { catchError, concatMap, delay, delayWhen, distinctUntilChanged, filter, map, pairwise, scan, share, shareReplay, startWith, switchMap, takeUntil, tap, throttleTime } from 'rxjs/operators';
 import { AuditStatus, BlockExtended, CurrentPegs, FederationAddress, FederationUtxo, OptimizedMempoolStats, PegsVolume, RecentPeg, TransactionStripped } from '@interfaces/node-api.interface';
 import { MempoolInfo, ReplacementInfo } from '@interfaces/websocket.interface';
 import { ApiService } from '@app/services/api.service';
@@ -40,6 +40,7 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
   mempoolLoadingStatus$: Observable<number>;
   vBytesPerSecondLimit = 1667;
   transactions$: Observable<TransactionStripped[]>;
+  transactionsWithNew$: Observable<Array<TransactionStripped & { isNew?: boolean }>>;
   blocks$: Observable<BlockExtended[]>;
   replacements$: Observable<ReplacementInfo[]>;
   latestBlockHeight: number;
@@ -198,6 +199,39 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
       );
 
     this.transactions$ = this.stateService.transactions$;
+
+    // Create transactions stream that inserts new transactions one-by-one rapidly
+    this.transactionsWithNew$ = this.transactions$.pipe(
+      filter(txs => txs != null),
+      startWith([]),
+      pairwise(),
+      // Emit new transactions one at a time (switchMap cancels previous batch if new one arrives)
+      switchMap(([prev, current]) => {
+        const prevTxids = new Set(prev.map((tx: TransactionStripped) => tx.txid));
+        const newTxs = current.filter(tx => !prevTxids.has(tx.txid));
+
+        if (newTxs.length === 0 || prev.length === 0) {
+          // No new transactions, just return current state
+          return of(current.map(tx => ({ ...tx, isNew: false })));
+        }
+
+        // Insert new transactions one by one with 750ms delay between each
+        // Start with prev (currently displayed) so the table doesn't clear
+        return from(newTxs).pipe(
+          concatMap((newTx, index) =>
+            of(newTx).pipe(delay(index * 750))
+          ),
+          scan((acc, newTx) => {
+            // Add new transaction at the start, mark as new, unmark others
+            return [
+              { ...newTx, isNew: true },
+              ...acc.map(tx => ({ ...tx, isNew: false }))
+            ].slice(0, 6);
+          }, prev.map(tx => ({ ...tx, isNew: false })))
+        );
+      }),
+      startWith([])
+    );
 
     this.blocks$ = this.stateService.blocks$
       .pipe(

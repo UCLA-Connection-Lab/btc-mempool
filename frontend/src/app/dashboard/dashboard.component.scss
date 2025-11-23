@@ -176,6 +176,20 @@
   .table-cell-fees {
     text-align: right;
   }
+
+  // Flash animation for new transactions
+  tr.new-transaction {
+    animation: ucla-flash 0.8s ease-out;
+  }
+}
+
+@keyframes ucla-flash {
+  0% {
+    background-color: #2774ae;
+  }
+  100% {
+    background-color: transparent;
+  }
 }
 .skeleton-loader-transactions {
   max-width: 250px;
