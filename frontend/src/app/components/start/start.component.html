@@ -11,7 +11,7 @@
 
 <div *ngIf="countdown > 0" class="warning-label">{{ eventName }} in {{ countdown | number }} block{{ countdown === 1 ? '' : 's' }}!</div>
 
-<h1 class="text-center mb-2" style="font-size: 2.5rem; font-weight: 600; color: var(--fg); margin-top: 0.5rem;">The Bitcoin Blockchain</h1>
+<h1 class="text-center mb-2" style="font-size: 2.5rem; font-weight: 600; color: var(--fg); margin-top: 0.5rem;">UCLA Connection Lab Bitcoin Observatory</h1>
 
 <div class="blockchain-wrapper" [class.time-ltr]="timeLtr" [class.time-rtl]="!timeLtr" #blockchainWrapper>
   <div id="blockchain-container" [dir]="timeLtr ? 'rtl' : 'ltr'" #blockchainContainer
